@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,331 +17,171 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
 
     <style>
-        /* Keyframes for left-to-right text animation */
-        @keyframes moveText {
+        /* Animation for sliding down the top bar */
+        .animate__slideInDown {
+            animation: slideInDown 1s ease-out forwards;
+        }
+
+        /* Keyframe animation for slide down */
+        @keyframes slideInDown {
             0% {
-                transform: translateX(-100%);
+                transform: translateY(-100%);
+                opacity: 0;
             }
             100% {
-                transform: translateX(100%);
+                transform: translateY(0);
+                opacity: 1;
             }
         }
 
-        /* Apply the animation to the top bar text */
-        .moving-text {
-            display: inline-block;
-            animation: moveText 10s linear infinite;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-        }
-
-        /* Adjusting the positioning of the main container */
-        .container {
+        /* Make sure the footer sticks to the bottom */
+        .main-container {
+            min-height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 80vh;
-            padding: 20px;
+            flex-direction: column;
         }
 
-        /* Adjusting the width of the game container for responsiveness */
-        .game-container {
-            width: 100%;
-            position: relative;
-            left: 50px;
-            max-width: 400px;
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        /* Score Container */
-        .score-container {
-            width: 250px;
-            position: relative;
-            left: 75px;
-            padding: 20px;
-            background-color: #f7fafc;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        /* Hover effect for buttons */
-        .btn {
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .btn:hover {
-            transform: scale(1.05);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .container {
-                flex-direction: column;
-                align-items: center;
-                padding: 10px;
-            }
-
-            .game-container {
-                left: 0;
-                max-width: 90%;
-            }
-
-            .score-container {
-                left: 0;
-                max-width: 90%;
-                margin-top: 20px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .game-container {
-                max-width: 95%;
-            }
-
-            .score-container {
-                max-width: 95%;
-                margin-top: 15px;
-            }
-        }
-
-        /* Fix for social icons on smaller devices */
-        .social-icons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .social-icons a {
-            font-size: 1.5rem;
-            transition: transform 0.3s;
-        }
-
-        .social-icons a:hover {
-            transform: scale(1.1);
-        }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.4);
-            padding-top: 60px;
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 400px;
-            border-radius: 10px;
-            text-align: left;
-        }
-
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
+        .footer {
+            margin-top: auto;
         }
     </style>
 </head>
-<body class="bg-gradient-to-r from-teal-200 to-blue-300 text-gray-900">
 
-    <!-- Animated Top Bar with Left-to-Right Moving Text -->
-    <div class="w-full bg-indigo-600 text-white text-center py-2 mb-6">
-        <div class="moving-text text-lg font-semibold">
-            <p>Welcome to "Guess the Number" Game! 🎮 - Try your luck now!</p>
-        </div>
+<body class="bg-gradient-to-r from-teal-200 to-blue-300 text-gray-900 font-poppins">
+
+    <!-- Animated Top Bar with Slide In Effect -->
+    <div class="w-full bg-indigo-600 text-white text-center py-2 mb-6 animate__slideInDown">
+        <p class="text-lg font-semibold">Welcome to "Guess the Number" Game! 🎮 - Try your luck now!</p>
     </div>
 
-    <!-- Main container with centered content -->
-    <div class="container">
+    <!-- Main Container with centered content -->
+    <div class="main-container flex flex-col justify-center items-center py-8 px-4">
 
         <!-- Game Container -->
-        <div class="game-container">
+        <div class="w-full max-w-lg bg-white p-6 rounded-xl shadow-lg text-center mb-6">
             <h1 class="text-4xl font-semibold text-indigo-700 mb-4 animate__animated animate__fadeIn">🎯 Guess the Number</h1>
             <p class="text-lg text-gray-600 mb-6">I have chosen a number between <b>1</b> and <b>100</b>. Try to guess it!</p>
 
             <!-- Input field with rounded corners and border -->
-            <input id="guessInput" type="number" class="w-full p-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-4 transition-transform transform hover:scale-105" placeholder="Enter your guess..." min="1" max="100">
+            <input id="guessInput" type="number"
+                class="w-full p-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-4 transition-transform transform hover:scale-105"
+                placeholder="Enter your guess..." min="1" max="100">
 
             <!-- Submit Button with hover effect -->
-            <button onclick="checkGuess()" class="w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-all mb-4 btn">Submit Guess</button>
+            <button onclick="checkGuess()"
+                class="w-full py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-all mb-4">Submit Guess</button>
 
             <!-- Message -->
             <p id="message" class="text-lg font-semibold text-gray-600"></p>
             <p id="attempts" class="text-sm text-gray-500 mt-2"></p>
 
             <!-- Reset Button -->
-            <button onclick="resetGame()" class="w-full py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-all mt-4 btn">Reset Game</button>
+            <button onclick="resetGame()"
+                class="w-full py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-all mt-4">Reset Game</button>
         </div>
 
-        <!-- Score Container -->
-        <div class="score-container">
+        <!-- Game Status Container -->
+        <div class="w-full max-w-sm bg-gray-50 p-6 rounded-xl shadow-lg text-center mt-6 sm:mt-0">
             <h2 class="text-xl font-semibold text-indigo-700 mb-4">Game Status</h2>
             <p class="text-lg text-gray-600">Score: <span id="score">0</span></p>
             <p class="text-lg text-gray-600">Chances: <span id="chances">10</span></p>
         </div>
-    </div>
 
-    <!-- Social Links moved up right after the game area -->
-    <div class="social-icons">
-        <a href="https://www.linkedin.com/in/abishek04/" target="_blank" class="text-gray-600 hover:text-blue-600 transition-all duration-300 transform hover:scale-110">
-            <i class="fab fa-linkedin fa-2x"></i>
-        </a>
-        <a href="https://www.instagram.com/entabilogist_abi?igsh=MXJ0eW03ajQxbXc2aw==" target="_blank" class="text-gray-600 hover:text-pink-600 transition-all duration-300 transform hover:scale-110">
-            <i class="fab fa-instagram fa-2x"></i>
-        </a>
-        <a href="https://github.com/AbishekSathiyan/" target="_blank" class="text-gray-800 hover:text-gray-600 transition-all duration-300 transform hover:scale-110">
-            <i class="fab fa-github fa-2x"></i>
-        </a>
-        <a href="https://abisheksathiyan.github.io/Abishek_Portfolio/" target="_blank" class="text-gray-800 hover:text-black transition-all duration-300 transform hover:scale-110">
-            <i class="fas fa-laptop-code fa-2x"></i>
-        </a>
     </div>
 
     <!-- Footer with Copyright -->
-    <footer class="text-center text-sm text-gray-600 mt-8">
-        &copy; 2025 Abishek. All rights reserved.
+    <footer class="footer text-center text-sm text-gray-600 mt-8">
+        &copy; 2025 Abishek S. All rights reserved.
     </footer>
 
-    <!-- Modal for Rules and Regulations -->
-    <div id="rulesModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h2 class="text-2xl font-semibold text-indigo-700 mb-4">Game Rules and Regulations</h2>
-            <ul class="list-disc pl-6 mb-4">
-                <li>The number is between 1 and 100.</li>
-                <li>You have a total of 10 chances to guess the number.</li>
-                <li>For every wrong guess, your chances will decrease.</li>
-                <li>If you guess correctly 3 times consecutively, you get all your chances back!</li>
-                <li>If you run out of chances, the game ends.</li>
-                <li>Each correct guess increases your score by 10 points.</li>
-            </ul>
-            <button onclick="startGame()" class="py-2 px-4 bg-indigo-600 text-white rounded-lg">Start Game</button>
-        </div>
-    </div>
-
     <script>
-        let randomNumber;
-        let attempts = 0;
-        let score = 0;
+        let secretNumber = 0;
         let chances = 10;
+        let score = 0;
         let consecutiveCorrectGuesses = 0;
 
-        function openModal() {
-            document.getElementById("rulesModal").style.display = "block";
-        }
-
-        function closeModal() {
-            document.getElementById("rulesModal").style.display = "none";
-        }
-
+        // Start a new game
         function startGame() {
-            randomNumber = Math.floor(Math.random() * 100) + 1;
-            console.log("Initial Correct Answer:", randomNumber);
-            closeModal();
-        }
-        function checkGuess() {
-    let guess = parseInt(document.getElementById("guessInput").value);
-    let message = document.getElementById("message");
-    let attemptsDisplay = document.getElementById("attempts");
-
-    // Check if the guess is correct
-    if (guess === randomNumber) {
-        score += 10;
-        consecutiveCorrectGuesses++;
-        message.textContent = `🎉 Correct! Your score: ${score}`;
-        message.className = "text-green-600 font-semibold animate__animated animate__bounceIn";
-
-        // Check if 3 correct guesses are made consecutively
-        if (consecutiveCorrectGuesses === 3) {
-            chances = 10; // Restore chances after 3 consecutive correct guesses
+            secretNumber = Math.floor(Math.random() * 100) + 1;
+            chances = 10;
+            score = 0;
             consecutiveCorrectGuesses = 0;
-            message.textContent = `🎉 3 Correct guesses in a row! Chances restored.`;
+            document.getElementById('message').innerText = '';
+            document.getElementById('attempts').innerText = '';
+            document.getElementById('score').innerText = score;
+            document.getElementById('chances').innerText = chances;
         }
-    } else {
-        chances--;
-        consecutiveCorrectGuesses = 0; // Reset consecutive correct guesses counter
-        message.textContent = guess < randomNumber ? "🔼 Try higher!" : "🔽 Try lower!";
-        message.className = "text-red-500 font-semibold animate__animated animate__shakeX";
-    }
 
-    // Update the score and chances on the UI
-    document.getElementById("score").textContent = score;
-    document.getElementById("chances").textContent = chances;
+        // Function to check the user's guess
+        function checkGuess() {
+            const guessInput = document.getElementById('guessInput');
+            const guess = parseInt(guessInput.value);
 
-    // If the chances run out, disable input and show game over message
-    if (chances === 0) {
-        message.textContent = "💔 Sorry! You've run out of chances. Game Over!";
-        message.className = "text-red-600 font-semibold animate__animated animate__heartBeat";
-        document.getElementById("guessInput").disabled = true;
-    }
+            // Validate the guess
+            if (isNaN(guess) || guess < 1 || guess > 100) {
+                document.getElementById('message').innerText = 'Please enter a valid number between 1 and 100.';
+                return;
+            }
 
-    // Increment attempts after each guess
-    attempts++;
-    attemptsDisplay.textContent = `Attempts: ${attempts}`;
+            // Decrease chances and check the guess
+            if(chances>=1)
+            chances--;
+            if (guess === secretNumber) {
+                score += 10;
+                consecutiveCorrectGuesses++;
+                document.getElementById('message').innerText = 'Correct guess!';
+            } else if (guess < secretNumber) {
+                document.getElementById('message').innerText = 'Too low! Try again.';
+            } else {
+                document.getElementById('message').innerText = 'Too high! Try again.';
+            }
 
-    // Refresh the random number after each guess
-    randomNumber = Math.floor(Math.random() * 100) + 1;
-    console.log("New Correct Answer:", randomNumber);
+            // Update score and chances
+            document.getElementById('score').innerText = score;
+            document.getElementById('chances').innerText = chances;
 
-    // Clear the input field after 3 seconds
-    setTimeout(() => {
-        document.getElementById("guessInput").value = "";
-    }, 3000);
+            // Check game over
+if (chances === 0) {
+    document.getElementById('message').innerText = 'Game Over! You ran out of chances.';
+    resetGame(); // Call the reset game function
+}
+
+// Reset the game with a countdown before resetting
+function resetGame() {
+    let countdown = 5;  // Starting countdown value
+    const messageElement = document.getElementById('message');
+    
+    // Show a reset message
+    //messageElement.innerText = 'Resetting game in ' + countdown + " Seconds...";
+
+    // Countdown and update message every second
+    const interval = setInterval(() => {
+        countdown--;
+        messageElement.innerText = 'Resetting game in ' + countdown + ' Seconds...';
+        
+        if (countdown <= 0) {
+            clearInterval(interval);  // Stop the interval when the countdown reaches 0
+            startGame();  // Reset the game
+            document.getElementById('guessInput').value = '';  // Clear the guess input field
+            messageElement.innerText = '';  // Clear the reset message after reset
+        }
+    }, 1000); // 1000 milliseconds = 1 second
 }
 
 
-            // Refresh the random number after each guess
-            randomNumber = Math.floor(Math.random() * 100) + 1;
-            console.log("New Correct Answer:", randomNumber);
-
-            // Clear input field after 3 seconds
-            setTimeout(() => {
-                document.getElementById("guessInput").value = "";
-            }, 3000);
-
-        function resetGame() {
-            chances = 10;
-            score = 0;
-            attempts = 0;
-            consecutiveCorrectGuesses = 0;
-            document.getElementById("score").textContent = score;
-            document.getElementById("chances").textContent = chances;
-            document.getElementById("attempts").textContent = "Attempts: 0";
-            document.getElementById("guessInput").disabled = false;
-            document.getElementById("message").textContent = "";
-            document.getElementById("guessInput").value = "";
-            startGame(); // Restart the game with a new random number
+            // Check for consecutive correct guesses
+            if (consecutiveCorrectGuesses === 3) {
+                chances = 10;
+                consecutiveCorrectGuesses = 0;
+                document.getElementById('message').innerText += ' You got all your chances back!';
+            }
         }
 
-        // Initialize game
-        openModal();
+        // Reset the game
+        function resetGame() {
+            startGame();
+        }
     </script>
-
 </body>
+
 </html>
