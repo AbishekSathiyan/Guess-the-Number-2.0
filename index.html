@@ -264,66 +264,81 @@
             console.log("Initial Correct Answer:", randomNumber);
             closeModal();
         }
-
         function checkGuess() {
-            let guess = parseInt(document.getElementById("guessInput").value);
-            let message = document.getElementById("message");
-            let attemptsDisplay = document.getElementById("attempts");
+    let guess = parseInt(document.getElementById("guessInput").value);
+    let message = document.getElementById("message");
+    let attemptsDisplay = document.getElementById("attempts");
 
-            if (isNaN(guess) || guess < 1 || guess > 100) {
-                message.textContent = "⚠️ Please enter a number between 1 and 100!";
-                message.className = "text-yellow-500 font-semibold animate__animated animate__shakeX";
-                return;
-            }
+    // Check if the guess is correct
+    if (guess === randomNumber) {
+        score += 10;
+        consecutiveCorrectGuesses++;
+        message.textContent = `🎉 Correct! Your score: ${score}`;
+        message.className = "text-green-600 font-semibold animate__animated animate__bounceIn";
 
-            if (guess === randomNumber) {
-                consecutiveCorrectGuesses++;
-                score += 10;
-                message.textContent = `🎉 Congratulations! You guessed it in ${attempts + 1} attempts.`;
-                if (consecutiveCorrectGuesses === 3) {
-                    chances = 10;
-                    message.textContent += " You get all your chances back!";
-                    consecutiveCorrectGuesses = 0;
-                }
-                message.className = "text-green-500 font-semibold animate__animated animate__fadeIn";
-                resetGameAfterCorrectGuess();
-            } else {
-                consecutiveCorrectGuesses = 0;
-                chances--;
-                if (guess > randomNumber) {
-                    message.textContent = "🔴 Too high! Try again!";
-                } else {
-                    message.textContent = "🔴 Too low! Try again!";
-                }
-                message.className = "text-red-500 font-semibold animate__animated animate__fadeIn";
-            }
-
-            attempts++;
-            attemptsDisplay.textContent = `Attempts: ${attempts}`;
-            document.getElementById("score").textContent = score;
-            document.getElementById("chances").textContent = chances;
-
-            if (chances === 0) {
-                message.textContent = `Game Over! The correct number was ${randomNumber}.`;
-                message.className = "text-red-500 font-semibold animate__animated animate__fadeIn";
-                document.getElementById("guessInput").disabled = true;
-            }
+        // Check if 3 correct guesses are made consecutively
+        if (consecutiveCorrectGuesses === 3) {
+            chances = 10; // Restore chances after 3 consecutive correct guesses
+            consecutiveCorrectGuesses = 0;
+            message.textContent = `🎉 3 Correct guesses in a row! Chances restored.`;
         }
+    } else {
+        chances--;
+        consecutiveCorrectGuesses = 0; // Reset consecutive correct guesses counter
+        message.textContent = guess < randomNumber ? "🔼 Try higher!" : "🔽 Try lower!";
+        message.className = "text-red-500 font-semibold animate__animated animate__shakeX";
+    }
+
+    // Update the score and chances on the UI
+    document.getElementById("score").textContent = score;
+    document.getElementById("chances").textContent = chances;
+
+    // If the chances run out, disable input and show game over message
+    if (chances === 0) {
+        message.textContent = "💔 Sorry! You've run out of chances. Game Over!";
+        message.className = "text-red-600 font-semibold animate__animated animate__heartBeat";
+        document.getElementById("guessInput").disabled = true;
+    }
+
+    // Increment attempts after each guess
+    attempts++;
+    attemptsDisplay.textContent = `Attempts: ${attempts}`;
+
+    // Refresh the random number after each guess
+    randomNumber = Math.floor(Math.random() * 100) + 1;
+    console.log("New Correct Answer:", randomNumber);
+
+    // Clear the input field after 3 seconds
+    setTimeout(() => {
+        document.getElementById("guessInput").value = "";
+    }, 3000);
+}
+
+
+            // Refresh the random number after each guess
+            randomNumber = Math.floor(Math.random() * 100) + 1;
+            console.log("New Correct Answer:", randomNumber);
+
+            // Clear input field after 3 seconds
+            setTimeout(() => {
+                document.getElementById("guessInput").value = "";
+            }, 3000);
 
         function resetGame() {
-            attempts = 0;
-            score = 0;
             chances = 10;
+            score = 0;
+            attempts = 0;
             consecutiveCorrectGuesses = 0;
             document.getElementById("score").textContent = score;
             document.getElementById("chances").textContent = chances;
+            document.getElementById("attempts").textContent = "Attempts: 0";
+            document.getElementById("guessInput").disabled = false;
             document.getElementById("message").textContent = "";
             document.getElementById("guessInput").value = "";
-            document.getElementById("guessInput").disabled = false;
-            startGame();
+            startGame(); // Restart the game with a new random number
         }
 
-        // Initial setup
+        // Initialize game
         openModal();
     </script>
 
